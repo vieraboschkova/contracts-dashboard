@@ -1,0 +1,19 @@
+{
+  "name": "contracts-dashboard",
+  "version": "1.0.0",
+  "description": "Contracts, treatments and patients Dashboard",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vieraboschkova/contracts-dashboard.git"
+  },
+  "author": "Weronika",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vieraboschkova/contracts-dashboard/issues"
+  },
+  "homepage": "https://github.com/vieraboschkova/contracts-dashboard#readme"
+}
