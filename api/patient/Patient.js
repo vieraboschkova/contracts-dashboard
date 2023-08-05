@@ -15,10 +15,10 @@ const patientSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    treatments: [
+    contracts: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Treatment',
+        ref: 'Contract',
       },
     ],
   },

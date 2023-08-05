@@ -27,7 +27,7 @@ router
       console.log(req.body);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(418).json({ errors: errors.array() });
       }
       const { name, birth, stage } = req.body;
       try {
@@ -36,6 +36,7 @@ router
           birth,
           stage,
         });
+        console.log(patient)
         await patient.save();
         res.status(200).json({ message: 'Patient created', patient });
       } catch (e) {

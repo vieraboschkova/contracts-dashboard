@@ -5,9 +5,13 @@ import background from './assets/images/logo.png';
 
 import './App.css';
 
-function App () {
+function App() {
   return (
-    <div className="main" style={{ backgroundImage: `url(${background})` }}>
+    <div className="main">
+      <div
+        className="main__bg"
+        style={{ backgroundImage: `url(${background})` }}
+      ></div>
       <CssBaseline />
       <Header />
       <Outlet />
