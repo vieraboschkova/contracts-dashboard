@@ -1,25 +1,22 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App.js'
-import ErrorPage from './ErrorPage.js'
-import Patients from './views/Patients/Patients.js'
-import Patient from './views/Patient/Patient.js'
-import Contracts from './views/Contracts/Contracts.js'
-import Contract from './views/Contract/Contract.js'
-import Treatments from './views/Treatments/Treatments.js'
-import Treatment from './views/Treatment/Treatment.js'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App.js';
+import ErrorPage from './ErrorPage.js';
+import Patients from './views/Patients/Patients.js';
+import Patient from './views/Patient/Patient.js';
+import Contracts from './views/Contracts/Contracts.js';
+import Contract from './views/Contract/Contract.js';
+import Treatments from './views/Treatments/Treatments.js';
+import Treatment from './views/Treatment/Treatment.js';
 
-import {
-  createBrowserRouter,
-  RouterProvider
-} from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 // Simple router
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App/>,
+    element: <App />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -28,9 +25,9 @@ const router = createBrowserRouter([
         children: [
           {
             path: ':patientId',
-            element: <Patient />
-          }
-        ]
+            element: <Patient />,
+          },
+        ],
       },
       {
         path: 'contracts',
@@ -38,9 +35,9 @@ const router = createBrowserRouter([
         children: [
           {
             path: ':contractId',
-            element: <Contract />
-          }
-        ]
+            element: <Contract />,
+          },
+        ],
       },
       {
         path: 'treatments',
@@ -48,17 +45,16 @@ const router = createBrowserRouter([
         children: [
           {
             path: ':treatmentId',
-            element: <Treatment />
-          }
-        ]
-      }
-    ]
-  }
-
-])
-const root = ReactDOM.createRoot(document.getElementById('root'))
+            element: <Treatment />,
+          },
+        ],
+      },
+    ],
+  },
+]);
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
-)
+  </React.StrictMode>,
+);

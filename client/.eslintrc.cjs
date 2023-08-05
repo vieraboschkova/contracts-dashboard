@@ -2,31 +2,46 @@ module.exports = {
   root: true,
   env: {
     es6: true,
-    node: true
+    node: true,
+    browser: true,
   },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'standard'
+    'plugin:prettier/recommended',
+    'standard',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
   },
-  plugins: [
-    '@typescript-eslint',
-    'import'
-  ],
+  plugins: ['@typescript-eslint', 'import', 'react', 'prettier'],
   rules: {
-    'no-empty': [0, 'allow-empty-functions', 'allow-empty-catch'],
     'react/react-in-jsx-scope': 'off',
-    camelcase: 'error',
-    'spaced-comment': 'error',
-    quotes: ['error', 'single'],
-    'no-duplicate-imports': 'error'
-  }
-}
+    'no-console': 'warn',
+    'no-eval': 'error',
+    'react-hooks/exhaustive-deps': 'off',
+    semi: 'off',
+    'prettier/prettier': [
+      'warn',
+      {
+        arrowParens: 'always',
+        bracketSpacing: true,
+        printWidth: 80,
+        proseWrap: 'always',
+        semi: true,
+        singleQuote: true,
+        tabWidth: 2,
+        useTabs: false,
+        endOfLine: 'auto',
+        extraSpace: 0,
+      },
+    ],
+    'react/display-name': 'warn',
+    'comma-dangle': 0,
+  },
+};
