@@ -1,20 +1,22 @@
-const express = require('express');
-// const connectDB = require('./config/db');
-const path = require('path');
+import express from 'express';
+import connectDB from './config/mongodb.js';
+import path from 'path';
+import patientRoute from './api/patient/patientRoute.js';
 
 const app = express();
 
 // Connect Database
-// connectDB();
+connectDB();
 
 // Init Middleware
 app.use(express.json());
+// app.get('/', (req, res) => res.send('running'));
 
 // Define Routes
-// app.use('/api/patients', require('./routes/api/patients'));
-// app.use('/api/contracts', require('./routes/api/contracts'));
-// app.use('/api/treatments', require('./routes/api/treatments'));
-// app.use('/api/medicinals', require('./routes/api/medicinals'));
+app.use('/api/patients', patientRoute);
+// app.use('/api/contracts', require('./api/contracts'));
+// app.use('/api/treatments', require('./api/treatments'));
+// app.use('/api/medicinals', require('./api/medicinals'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
