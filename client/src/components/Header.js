@@ -32,7 +32,7 @@ function Header () {
 
   return (
     <AppBar
-      position="static"
+      position="absolute"
       sx={{
         backgroundColor: '#453df5',
       }}

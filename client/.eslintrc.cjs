@@ -9,7 +9,6 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
-    'standard',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -25,6 +24,8 @@ module.exports = {
     'no-console': 'warn',
     'no-eval': 'error',
     'react-hooks/exhaustive-deps': 'off',
+    'react/prop-types': 'off',
+
     semi: 'off',
     'prettier/prettier': [
       'warn',
