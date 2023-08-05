@@ -1,9 +1,12 @@
+import { Outlet } from 'react-router-dom'
+import Header from './components/Header.js'
 import './App.css'
 
 function App () {
   return (
     <div className="App">
-      <h1>App to Be</h1>
+      <Header />
+      <Outlet />
     </div>
   )
 }
