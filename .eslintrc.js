@@ -5,18 +5,16 @@ module.exports = {
     node: true,
   },
   extends: ['standard', 'eslint:recommended', 'prettier'],
-  'overrides': [
-      {
-          'env': {
-              'node': true
-          },
-          'files': [
-              '.eslintrc.{js,cjs}'
-          ],
-          'parserOptions': {
-              'sourceType': 'script'
-          }
-      }
+  overrides: [
+    {
+      env: {
+        node: true,
+      },
+      files: ['.eslintrc.{js,cjs}'],
+      parserOptions: {
+        sourceType: 'script',
+      },
+    },
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -27,16 +25,16 @@ module.exports = {
   rules: {
     semi: ['error', 'always'],
     quotes: ['error', 'single'],
-    'import/extensions': [
-      'error',
-      'ignorePackages',
-      {
-        js: 'never',
-        jsx: 'never',
-        ts: 'never',
-        tsx: 'never',
-      },
-    ],
+    // 'import/extensions': [
+    //   'error',
+    //   'ignorePackages',
+    //   {
+    //     js: 'never',
+    //     jsx: 'never',
+    //     ts: 'never',
+    //     tsx: 'never',
+    //   },
+    // ],
     // 'import/no-dynamic-require': 0,
     // 'global-require': 0,
     // 'import/prefer-default-export': 0,
@@ -52,7 +50,7 @@ module.exports = {
         singleQuote: true,
         printWidth: 80,
         tabWidth: 2,
-        endOfLine: 0,
+        endOfLine: 'auto',
         arrowParens: 'always',
       },
     ],
