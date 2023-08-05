@@ -22,32 +22,26 @@ const router = createBrowserRouter([
       {
         path: 'patients',
         element: <Patients />,
-        children: [
-          {
-            path: ':patientId',
-            element: <Patient />,
-          },
-        ],
+      },
+      {
+        path: 'patients/:patientId',
+        element: <Patient />,
       },
       {
         path: 'contracts',
         element: <Contracts />,
-        children: [
-          {
-            path: ':contractId',
-            element: <Contract />,
-          },
-        ],
+      },
+      {
+        path: 'contracts/:contractId',
+        element: <Contract />,
       },
       {
         path: 'treatments',
         element: <Treatments />,
-        children: [
-          {
-            path: ':treatmentId',
-            element: <Treatment />,
-          },
-        ],
+      },
+      {
+        path: 'treatments/:treatmentId',
+        element: <Treatment />,
       },
     ],
   },
