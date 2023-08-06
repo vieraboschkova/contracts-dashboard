@@ -4,9 +4,12 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function PatientCard(props) {
-  const { name = 'Patient', birth = 1990, id = 0 } = props;
+  const { name = '', birth = 0, _id = '' } = props;
+  const navigate = useNavigate();
+
   return (
     <Grid item xs={10} sm={6} md={4}>
       <Card
@@ -25,7 +28,11 @@ export default function PatientCard(props) {
         <CardActions>
           <Button
             size="small"
-            href={'patients/' + id}
+            onClick={() => {
+              navigate(_id, {
+                state: { patient: props },
+              });
+            }}
             variant="contained"
             color="info"
           >

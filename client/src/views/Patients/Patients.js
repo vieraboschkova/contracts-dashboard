@@ -23,7 +23,6 @@ function Patients() {
         if (patients.status !== 200)
           throw Error({ message: patients.statusText });
         const patientsJSON = await patients.json();
-        console.log(patientsJSON);
         if (patientsJSON) {
           setPatients(patientsJSON);
         } else {
@@ -69,9 +68,15 @@ function Patients() {
             sx={{ m: '-1rem' }}
             justifyContent="center"
           >
-            {patients.map(({ name, birth, _id }) => {
+            {patients.map(({ name, birth, _id, stage }) => {
               return (
-                <PatientCard key={_id} name={name} birth={birth} id={_id} />
+                <PatientCard
+                  key={_id}
+                  name={name}
+                  birth={birth}
+                  _id={_id}
+                  stage={stage}
+                />
               );
             })}
           </Grid>

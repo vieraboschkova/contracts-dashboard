@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
-import { 
-  // useNavigate, 
-  useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import mockPatients from '../../mock/patients.mock';
 import ContractCard from '../../components/ContractCard';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -13,37 +10,44 @@ import CardContent from '@mui/material/CardContent';
 function Patient() {
   const { patientId } = useParams();
   const [patient, setPatient] = useState({});
-  // const navigate = useNavigate();
-  // Get from location state or fetch
+  const navigate = useNavigate();
+  const location = useLocation();
+  // TODO: Get from location state or fetch
+  const handleError = () => {
+    navigate('/patients');
+  };
+
   useEffect(() => {
-    //
-    const fetchPatient = async () => {
+    const fetchPatientData = async () => {
       try {
-        const patient = await fetch('/api/patients/' + patientId);
-        const patientJSON = await patient.json();
-        console.log(patientJSON);
-        if (patientJSON) {
-          setPatient(patientJSON);
+        const patientRes = await fetch('/api/patients/' + patientId);
+        const contractsRes = await fetch(
+          '/api/contracts/byPatientId/' + patientId,
+        );
+        if (patientRes.status !== 200 || contractsRes.status !== 200)
+          throw Error({ message: patientRes.statusText });
+        const patientJSON = await patientRes.json();
+        const contractsJSON = await contractsRes.json();
+
+        if (patientJSON && contractsJSON) {
+          setPatient({ ...patientJSON, contracts: [...contractsJSON] });
         } else {
-          const patient = mockPatients.find(
-            (patient) => patient.id === patientId,
-          );
-          setPatient(patient ? patient : mockPatients[0]);
-          // OR
-          // if (!patient) {
-          //   navigate('/patients');
-          // }
+          handleError();
         }
       } catch (error) {
-        console.log(error);
+        handleError();
       }
     };
-    fetchPatient();
+    if (location?.state?.patient) {
+      // setPatient({ ...location.state.patient });
+      fetchPatientData();
+    } else {
+      fetchPatientData();
+    }
 
     return () => {
       setPatient({});
     };
-
   }, []);
 
   return (
@@ -58,11 +62,16 @@ function Patient() {
           <Typography variant="h3" gutterBottom className="text__white">
             Name: {patient.name}
           </Typography>
+          <hr></hr>
           <Typography variant="div" gutterBottom className="text__white">
             Birth: {patient.birth}
-            <br />
+          </Typography>
+          <hr></hr>
+          <Typography variant="div" gutterBottom className="text__white">
             Stage: {patient.stage}
-            <br />
+          </Typography>
+          <hr></hr>
+          <Typography variant="div" gutterBottom className="text__white">
             Patient Id: {patient._id}
           </Typography>
         </CardContent>
@@ -71,8 +80,8 @@ function Patient() {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2} sx={{ m: '-1rem' }} justifyContent="center">
           {patient?.contracts &&
-            patient.contracts.map((contractId) => {
-              return <ContractCard key={contractId} id={contractId} />;
+            patient.contracts.map((contract) => {
+              return <ContractCard key={contract._id} contract={contract} />;
             })}
         </Grid>
       </Box>

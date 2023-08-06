@@ -4,9 +4,12 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function ContractCard(props) {
-  const { id = 'c_1' } = props;
+  const { contract } = props;
+  const navigate = useNavigate();
+
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card
@@ -16,15 +19,19 @@ export default function ContractCard(props) {
       >
         <CardContent>
           <Typography variant="h5" component="div" className="text__white">
-            ContractId: {id}
+            ContractId: {contract._id}
           </Typography>
         </CardContent>
         <CardActions>
           <Button
             size="small"
-            href={'contracts/' + id}
             variant="contained"
             color="info"
+            onClick={() => {
+              navigate('/contracts/' + contract._id, {
+                state: { contract: contract },
+              });
+            }}
           >
             <span className="text__white">See contract details</span>
           </Button>
