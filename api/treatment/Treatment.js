@@ -8,10 +8,6 @@ const treatmentSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    startDate: {
-      type: Number,
-      required: true,
-    },
     duration: {
       type: Number,
       required: true,
@@ -24,12 +20,13 @@ const treatmentSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    medicinals: [
+    medicinal: 
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Medicinal',
+        required: true,
       },
-    ],
+    
   },
   { timestamps: true }
 );
