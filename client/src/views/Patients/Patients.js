@@ -14,8 +14,9 @@ function Patients() {
   const [openNewPatient, setOpenNewPatient] = useState(false);
   const [patients, setPatients] = useState([]);
 
+  // TODO: add loader
   useEffect(() => {
-    // React-query?
+    // React-query/ react-router?
     const fetchPatients = async () => {
       try {
         const patients = await fetch('/api/patients');

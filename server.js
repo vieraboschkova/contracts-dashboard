@@ -3,6 +3,9 @@ import connectDB from './config/mongodb.js';
 import path from 'path';
 import patientRoute from './api/patient/patientRoute.js';
 import medicinalRoute from './api/medicinal/medicinalRoute.js';
+import treatmentRoute from './api/treatment/treatmentRoute.js';
+
+// Init
 const app = express();
 
 // Connect Database
@@ -14,7 +17,7 @@ app.use(express.json());
 // Define Routes
 app.use('/api/patients', patientRoute);
 // app.use('/api/contracts', require('./api/contracts'));
-// app.use('/api/treatments', require('./api/treatments'));
+app.use('/api/treatments', treatmentRoute);
 app.use('/api/medicinals', medicinalRoute);
 
 // Serve static assets in production
