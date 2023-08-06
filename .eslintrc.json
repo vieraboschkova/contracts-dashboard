@@ -1,0 +1,41 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": ["standard", "eslint:recommended", "prettier"],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "comma-dangle":"off",
+        "prettier/prettier": [
+          "warn",
+          {
+            "arrowParens": "always",
+            "bracketSpacing": true,
+            "printWidth": 80,
+            "proseWrap": "always",
+            "semi": true,
+            "singleQuote": true,
+            "tabWidth": 2,
+            "useTabs": false,
+            "endOfLine": "auto",
+            "extraSpace": 0
+          }
+        ]
+    },
+    "overrides": [
+        {
+          "env": {
+            "node": true
+          },
+          "files": [".eslintrc.{js,cjs}"],
+          "parserOptions": {
+            "sourceType": "script"
+          }
+        }
+      ],
+      "plugins": ["prettier"]
+}
