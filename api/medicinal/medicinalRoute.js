@@ -21,7 +21,7 @@ router
   // @description Create a Medicinal
   .post(
     body('name', 'Please enter a name').trim().notEmpty().isString(),
-    body('dosage', 'Please enter a dosage').notEmpty().isInt(),
+    body('dosage', 'Please enter a dosage').trim().notEmpty().isString(),
     body('units', 'Please enter a valid number of units').notEmpty().isInt(),
     body('priceInCHF', 'Please enter a valid price in CHF').notEmpty().isInt(),
 
