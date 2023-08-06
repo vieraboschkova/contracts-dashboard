@@ -1,9 +1,10 @@
 import express from 'express';
 import connectDB from './config/mongodb.js';
 import path from 'path';
-import patientRoute from './api/patient/patientRoute.js';
-import medicinalRoute from './api/medicinal/medicinalRoute.js';
-import treatmentRoute from './api/treatment/treatmentRoute.js';
+import patientsRoute from './api/patient/patientRoute.js';
+import medicinalsRoute from './api/medicinal/medicinalRoute.js';
+import treatmentsRoute from './api/treatment/treatmentRoute.js';
+import contractsRoute from './api/contract/contractRoute.js';
 
 // Init
 const app = express();
@@ -15,10 +16,10 @@ connectDB();
 app.use(express.json());
 
 // Define Routes
-app.use('/api/patients', patientRoute);
-// app.use('/api/contracts', require('./api/contracts'));
-app.use('/api/treatments', treatmentRoute);
-app.use('/api/medicinals', medicinalRoute);
+app.use('/api/patients', patientsRoute);
+app.use('/api/contracts', contractsRoute);
+app.use('/api/treatments', treatmentsRoute);
+app.use('/api/medicinals', medicinalsRoute);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
