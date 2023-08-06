@@ -21,8 +21,8 @@ router
   // @description Create a Patient
   .post(
     body('name', 'Please enter a name').trim().notEmpty().isString(),
-    body('birth', 'Please enter a valid date of birth').notEmpty().isFloat(),
-    body('stage', 'Please enter a valid disease stage').notEmpty().isFloat(),
+    body('birth', 'Please enter a valid date of birth').notEmpty().isInt(),
+    body('stage', 'Please enter a valid disease stage').notEmpty().isInt(),
     async (req, res) => {
       console.log(req.body);
       const errors = validationResult(req);
