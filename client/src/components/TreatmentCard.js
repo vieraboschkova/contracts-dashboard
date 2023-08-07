@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export default function PatientCard(props) {
-  const { name = '', birth = 0, _id = '' } = props;
+export default function TreatmentCard(props) {
+  const { treatment } = props;
   const navigate = useNavigate();
 
   return (
@@ -19,24 +19,21 @@ export default function PatientCard(props) {
       >
         <CardContent>
           <Typography variant="h5" component="div" className="text__white">
-            Name: {name}
-          </Typography>
-          <Typography sx={{ mb: 1.5 }} className="text__white">
-            Age: {birth}
+            TreatmentId: {treatment._id}
           </Typography>
         </CardContent>
         <CardActions>
           <Button
             size="small"
-            onClick={() => {
-              navigate(_id, {
-                state: { patient: props },
-              });
-            }}
             variant="contained"
             color="info"
+            onClick={() => {
+              navigate('/treatments/' + treatment._id, {
+                state: { treatment: treatment },
+              });
+            }}
           >
-            <span className="text__white">See patient details</span>
+            <span className="text__white">See treatment details</span>
           </Button>
         </CardActions>
       </Card>

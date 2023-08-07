@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 export default function ContractCard(props) {
   const { contract } = props;
   const navigate = useNavigate();
-
+  
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card
