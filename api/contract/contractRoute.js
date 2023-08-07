@@ -17,8 +17,6 @@ router
     }
   })
 
-  // TODO: fix eslint/prettier
-
   // @route POST api/contracts
   // @description Create a Contract
   .post(
@@ -118,8 +116,8 @@ router
       ]),
     ],
     async (req, res) => {
-      const { progressionMonth, deathMonth } = req.body;
       try {
+        const { progressionMonth, deathMonth } = req.body;
         const contract = await Contract.findById(req.params.id);
         if (contract === undefined) {
           res.status(404).json({
@@ -138,5 +136,27 @@ router
       }
     },
   );
+
+router
+  .route('/byPatientId/:id')
+  // @route GET api/contracts/id
+  // @description get all contracts
+
+  .get(async (req, res) => {
+    // TODO: fix try / catch blocks
+    try {
+      const contracts = await Contract.find({
+        patient: req.params.id
+      });
+      if (contracts === undefined) {
+        res.status(404).json({
+          error: `Cannot find Contract with id: ${req.params.id}`,
+        });
+      }
+      res.status(200).json(contracts);
+    } catch (e) {
+      res.status(500).send(e);
+    }
+  });
 
 export default router;

@@ -2,6 +2,10 @@ body {
   margin: 0;
 }
 
+* {
+  word-break: break-all;
+}
+
 .container {
   max-width: 1000px;
   margin: auto;

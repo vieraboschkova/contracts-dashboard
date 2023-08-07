@@ -1,43 +1,50 @@
 import { useEffect, useState } from 'react';
 
 import NewPatientModal from '../../modals/NewPatientModal';
-
 import PatientCard from '../../components/PatientCard';
 import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import mockPatients from '../../mock/patients.mock';
+import LinearProgress from '@mui/material/LinearProgress';
+
+const initialFetchState = {
+  done: false,
+  loading: false,
+};
 
 function Patients() {
   const [openNewPatient, setOpenNewPatient] = useState(false);
   const [patients, setPatients] = useState([]);
+  const [fetchState, setFetchState] = useState({ ...initialFetchState });
 
-  // TODO: add loader
   useEffect(() => {
     // React-query/ react-router?
     const fetchPatients = async () => {
+      setFetchState((prev) => {
+        return { ...prev, loading: true };
+      });
       try {
         const patients = await fetch('/api/patients');
         if (patients.status !== 200)
           throw Error({ message: patients.statusText });
         const patientsJSON = await patients.json();
-        console.log(patientsJSON);
         if (patientsJSON) {
           setPatients(patientsJSON);
+          setFetchState({ done: true, success: true, loading: false });
         } else {
-          setPatients(mockPatients);
+          throw Error({ message: 'Error Fetching Patients' });
         }
       } catch (error) {
-        console.log(error);
-        // TODO: handle Error
+        setFetchState({ done: true, success: false, loading: false });
       }
     };
     fetchPatients();
 
     return () => {
       setPatients([]);
+      setFetchState({ ...initialFetchState });
     };
   }, []);
 
@@ -61,21 +68,35 @@ function Patients() {
             </Button>
           </Grid>
         </Grid>
-
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid
-            container
-            spacing={2}
-            sx={{ m: '-1rem' }}
-            justifyContent="center"
-          >
-            {patients.map(({ name, birth, _id }) => {
-              return (
-                <PatientCard key={_id} name={name} birth={birth} id={_id} />
-              );
-            })}
-          </Grid>
-        </Box>
+        {fetchState.loading && (
+          <Box sx={{ width: '100%', mt: '1rem' }}>
+            <LinearProgress />
+          </Box>
+        )}
+        {fetchState.done && !fetchState.success && (
+          <Box sx={{ width: '100%', mt: '1rem' }}>
+            <Typography variant="h4" gutterBottom>
+              Something went wrong. Reload the page.
+            </Typography>
+          </Box>
+        )}
+        {fetchState.success && (
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2} sx={{ m: '-1rem' }}>
+              {patients.map(({ name, birth, _id, stage }) => {
+                return (
+                  <PatientCard
+                    key={_id}
+                    name={name}
+                    birth={birth}
+                    _id={_id}
+                    stage={stage}
+                  />
+                );
+              })}
+            </Grid>
+          </Box>
+        )}
       </div>
       <NewPatientModal
         setOpenNewPatient={setOpenNewPatient}

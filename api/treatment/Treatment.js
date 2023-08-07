@@ -20,15 +20,13 @@ const treatmentSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    medicinal: 
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Medicinal',
-        required: true,
-      },
-    
+    medicinal: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Medicinal',
+      required: true,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model('Treatment', treatmentSchema);

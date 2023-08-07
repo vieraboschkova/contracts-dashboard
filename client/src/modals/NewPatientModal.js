@@ -49,9 +49,7 @@ export default function NewPatientModal(props) {
         body: JSON.stringify(data),
       };
       const patientRes = await fetch('/api/patients', requestOptions);
-      console.log(patientRes);
       const patientJSON = await patientRes.json();
-      console.log(patientJSON);
       setPatients((prev) => [...prev, { ...patientJSON.patient }]);
       setSubmitState({ done: true, success: true, loading: false });
 
@@ -61,13 +59,13 @@ export default function NewPatientModal(props) {
         setOpenNewPatient(false);
       }, 5000);
     } catch (error) {
-      console.log(error);
       setSubmitState({ done: true, success: false, loading: false });
       setTimeout(() => {
         setSubmitState({ ...initialSubmitState });
       }, 5000);
     }
   };
+
   return (
     <Dialog open={openNewPatient} onClose={() => setOpenNewPatient(false)}>
       <DialogTitle>Add New Patient</DialogTitle>
