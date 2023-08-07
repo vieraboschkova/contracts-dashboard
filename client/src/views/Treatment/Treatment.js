@@ -145,7 +145,6 @@ function Treatment() {
                     onClick={handleShowMedicinalDetails}
                     variant="contained"
                     color="info"
-                    disabled={treatment.deathMonth}
                     style={{ marginLeft: 'auto' }}
                   >
                     <span className="text__white">Show Medicinal details</span>

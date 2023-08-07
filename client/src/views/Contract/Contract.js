@@ -1,13 +1,21 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import {
+  useNavigate,
+  useParams,
+  // useLocation
+} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import UpdateContractModal from '../../modals/UpdateContractModal';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+
+import getMonthlyRate from './services/getMonthlyRate';
 
 const initialFetchState = {
   done: false,
@@ -20,11 +28,11 @@ function Contract() {
   const [patient, setPatient] = useState({});
   const [treatment, setTreatment] = useState({});
   const [medicinal, setMedicinal] = useState({});
-
+  const [openUpdateContract, setOpenUpdateContract] = useState(false);
   const [fetchState, setFetchState] = useState({ ...initialFetchState });
 
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
   useEffect(() => {
     const fetchContractData = async () => {
@@ -32,14 +40,36 @@ function Contract() {
         return { ...prev, loading: true };
       });
       try {
+        // TODO: Refactor!!
         const contractRes = await fetch('/api/contracts/' + contractId);
         if (contractRes.status !== 200)
           throw Error({ message: contractRes.statusText });
         const contractJSON = await contractRes.json();
-
         if (contractJSON) {
-          setContract(contractJSON);
-          setFetchState({ done: true, success: true, loading: false });
+          setContract({ ...contractJSON });
+          const treatmentRes = await fetch(
+            '/api/treatments/' + contractJSON.treatment,
+          );
+          if (treatmentRes.status !== 200)
+            throw Error({ message: treatmentRes.statusText });
+          const treatmentJSON = await treatmentRes.json();
+          if (treatmentJSON) {
+            setTreatment({ ...treatmentJSON });
+            const medicinalRes = await fetch(
+              '/api/medicinals/' + treatmentJSON.medicinal,
+            );
+            if (medicinalRes.status !== 200)
+              throw Error({ message: medicinalRes.statusText });
+            const medicinalJSON = await medicinalRes.json();
+            if (medicinalJSON) {
+              setMedicinal({ ...medicinalJSON });
+              setFetchState({ done: true, success: true, loading: false });
+            } else {
+              throw Error({ message: 'Could not fetch treatment' });
+            }
+          } else {
+            throw Error({ message: 'Could not fetch treatment' });
+          }
         } else {
           throw Error({ message: 'Could not fetch contract' });
         }
@@ -47,12 +77,13 @@ function Contract() {
         setFetchState({ done: true, success: false, loading: false });
       }
     };
-    if (location?.state?.contract) {
-      setContract({ ...location.state.contract });
-      setFetchState({ done: true, success: true, loading: false });
-    } else {
-      fetchContractData();
-    }
+    // TODO: handle missing treatment
+    // if (location?.state?.contract) {
+    //   setContract({ ...location.state.contract });
+    //   setFetchState({ done: true, success: true, loading: false });
+    // } else {
+    fetchContractData();
+    // }
 
     return () => {
       setContract({});
@@ -62,10 +93,6 @@ function Contract() {
 
   const handleGoToContracts = () => {
     navigate('/contracts');
-  };
-
-  const handleUpdateContract = () => {
-    // TODO: show update modal
   };
 
   const handleShowPatientsDetails = async () => {
@@ -91,17 +118,9 @@ function Contract() {
       setFetchState((prev) => {
         return { ...prev, loading: true };
       });
-      const treatmentRes = await fetch('/api/treatments/' + contract.treatment);
-
-      if (treatmentRes.status !== 200)
-        throw Error({ message: treatmentRes.statusText });
-
-      const treatmentJSON = await treatmentRes.json();
-      if (!treatmentJSON.medicinal)
-        throw Error({ message: 'Missing treatment data' });
 
       const medicinalRes = await fetch(
-        '/api/medicinals/' + treatmentJSON.medicinal,
+        '/api/medicinals/' + treatment.medicinal,
       );
       if (medicinalRes.status !== 200)
         throw Error({ message: medicinalRes.statusText });
@@ -109,7 +128,6 @@ function Contract() {
       const medicinalJSON = await medicinalRes.json();
 
       if (medicinalJSON) {
-        setTreatment({ ...treatmentJSON });
         setMedicinal({ ...medicinalJSON });
         setFetchState({ done: true, success: true, loading: false });
       } else {
@@ -124,11 +142,12 @@ function Contract() {
     <div className="container">
       <Box sx={{ width: '100%', mb: '1rem' }}>
         <Button
-          size="small"
+          startIcon={<ArrowBackIosNewIcon />}
           onClick={handleGoToContracts}
           variant="contained"
           color="info"
           disabled={fetchState.loading}
+          style={{ marginRight: '1rem' }}
         >
           <span className="text__white">Back to Contracts</span>
         </Button>
@@ -168,13 +187,12 @@ function Contract() {
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={6}>
-                {!treatment.name ? (
+                {!medicinal.name ? (
                   <Button
                     size="small"
                     onClick={handleShowTreatmentDetails}
                     variant="contained"
                     color="info"
-                    disabled={contract.deathMonth}
                     style={{ marginLeft: 'auto' }}
                   >
                     <span className="text__white">Show Treatment details</span>
@@ -216,7 +234,6 @@ function Contract() {
                     onClick={handleShowPatientsDetails}
                     variant="contained"
                     color="info"
-                    disabled={contract.deathMonth}
                     style={{ marginLeft: 'auto' }}
                   >
                     <span className="text__white">Show Patient details</span>
@@ -254,21 +271,70 @@ function Contract() {
             <Typography variant="p" gutterBottom className="text__white">
               No PSF percentage: {contract.noPSFPercentage}%
             </Typography>
+            <hr></hr>
+            <Typography variant="p" gutterBottom className="text__white">
+              Progression Month:{' '}
+              {contract.progressionMonth ? (
+                contract.progressionMonth
+              ) : (
+                <Button
+                  size="small"
+                  startIcon={<EditNoteIcon />}
+                  onClick={() => setOpenUpdateContract('progressionMonth')}
+                  variant="contained"
+                  color="info"
+                  disabled={
+                    !!contract.deathMonth || fetchState.success === false
+                  }
+                >
+                  <span className="text__white">Update progression Month</span>
+                </Button>
+              )}
+            </Typography>
+            <hr></hr>
+            <Typography variant="p" gutterBottom className="text__white">
+              Death Month:{' '}
+              {contract.deathMonth ? (
+                contract.deathMonth
+              ) : (
+                <Button
+                  size="small"
+                  startIcon={<EditNoteIcon />}
+                  onClick={() => setOpenUpdateContract('deathMonth')}
+                  variant="contained"
+                  color="info"
+                  disabled={
+                    !!contract.deathMonth || fetchState.success === false
+                  }
+                >
+                  <span className="text__white">Update Death Month</span>
+                </Button>
+              )}
+            </Typography>
+            <hr></hr>
+            {treatment.duration && contract.start && medicinal.priceInCHF && (
+              <Typography variant="p" gutterBottom className="text__white">
+                Amount payable per month:{' '}
+                {getMonthlyRate(
+                  contract,
+                  treatment.duration,
+                  medicinal.priceInCHF,
+                ).map((text) => {
+                  return <p key={text}>{text}</p>
+                })}
+              </Typography>
+            )}
           </CardContent>
         )}
-        {/* TODO: add contrcact stage and show conditionally if updates can be made */}
-        <CardActions>
-          <Button
-            size="small"
-            onClick={handleUpdateContract}
-            variant="contained"
-            color="info"
-            disabled={contract.deathMonth || fetchState.success === false}
-          >
-            <span className="text__white">Update contract details</span>
-          </Button>
-        </CardActions>
       </Card>
+      {openUpdateContract && (
+        <UpdateContractModal
+          setOpenUpdateContract={setOpenUpdateContract}
+          openUpdateContract={openUpdateContract}
+          setContract={setContract}
+          contract={contract}
+        />
+      )}
     </div>
   );
 }
