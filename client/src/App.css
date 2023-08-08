@@ -5,13 +5,21 @@
 }
 
 .main__bg {
-    background-position: center;
     background-repeat: no-repeat;
-    background-size: 200px auto;
+    background-position: center;
+    background-size: cover;
     position: fixed;
     height: 100%;
     width: 100%;
     z-index: -1;
+}
+
+.main__bg:after{
+    height: 100%;
+    width: 100%;
+    display: block;
+    content:"";
+    background-color: #33333347
 }
 
 .text__white {
