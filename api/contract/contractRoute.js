@@ -45,7 +45,6 @@ router
       .isInt(),
 
     async (req, res) => {
-      console.log(req.body);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(418).json({ errors: errors.array() });
@@ -73,7 +72,6 @@ router
           noPSFPercentage,
           PSFMaxTimeInMonths,
         });
-        console.log(contract);
         await contract.save();
         res.status(200).json({ message: 'Contract created', contract });
       } catch (e) {
@@ -89,8 +87,9 @@ router
 
   .get(async (req, res) => {
     // TODO: fix try / catch blocks
-    const contract = await Contract.findById(req.params.id);
     try {
+      const contract = await Contract.findById(req.params.id);
+
       if (contract === undefined) {
         res.status(404).json({
           error: `Cannot find Contract with id: ${req.params.id}`,
