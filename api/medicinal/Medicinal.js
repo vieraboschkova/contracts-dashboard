@@ -20,7 +20,7 @@ const medicinalSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model('Medicinal', medicinalSchema);

@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 const pages = ['patients', 'treatments', 'contracts'];
 
-function Header () {
+function Header() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 

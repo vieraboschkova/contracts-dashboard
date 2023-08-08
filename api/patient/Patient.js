@@ -22,7 +22,7 @@ const patientSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model('Patient', patientSchema);
