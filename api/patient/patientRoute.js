@@ -24,7 +24,6 @@ router
     body('birth', 'Please enter a valid date of birth').notEmpty().isInt(),
     body('stage', 'Please enter a valid disease stage').notEmpty().isInt(),
     async (req, res) => {
-      console.log(req.body);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(418).json({ errors: errors.array() });
@@ -36,7 +35,6 @@ router
           birth,
           stage,
         });
-        console.log(patient);
         await patient.save();
         res.status(200).json({ message: 'Patient created', patient });
       } catch (e) {
@@ -50,8 +48,9 @@ router
   // @route GET api/patients/id
   // @description get all patients
   .get(async (req, res) => {
-    const patient = await Patient.findById(req.params.id);
     try {
+      const patient = await Patient.findById(req.params.id);
+
       if (patient === undefined) {
         res.status(404).json({
           error: `Cannot find Patient with id: ${req.params.id}`,

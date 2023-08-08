@@ -34,7 +34,6 @@ router
       .notEmpty()
       .isMongoId(),
     async (req, res) => {
-      console.log(req.body);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(418).json({ errors: errors.array() });
@@ -48,7 +47,6 @@ router
           maxAge,
           medicinal,
         });
-        console.log(treatment);
         await treatment.save();
         res.status(200).json({ message: 'Treatment created', treatment });
       } catch (e) {
