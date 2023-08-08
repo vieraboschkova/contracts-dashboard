@@ -1,6 +1,6 @@
 # Contracts Dashboard
 
-MERN stack simple dashboard. [Contracts Dashboard[(https://contracts-dashboard.onrender.com)
+MERN stack simple dashboard. https://contracts-dashboard.onrender.com
 
 ## Structure
 
