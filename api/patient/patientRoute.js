@@ -36,13 +36,13 @@ router
           birth,
           stage,
         });
-        console.log(patient)
+        console.log(patient);
         await patient.save();
         res.status(200).json({ message: 'Patient created', patient });
       } catch (e) {
         res.status(400).send(e);
       }
-    }
+    },
   );
 
 router

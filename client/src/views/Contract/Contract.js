@@ -320,7 +320,7 @@ function Contract() {
                   treatment.duration,
                   medicinal.priceInCHF,
                 ).map((text) => {
-                  return <p key={text}>{text}</p>
+                  return <p key={text}>{text}</p>;
                 })}
               </Typography>
             )}

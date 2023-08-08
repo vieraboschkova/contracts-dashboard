@@ -35,15 +35,17 @@ router
       try {
         const medicinal = new Medicinal({
           name,
-          dosage, units, priceInCHF
+          dosage,
+          units,
+          priceInCHF,
         });
-        console.log(medicinal)
+        console.log(medicinal);
         await medicinal.save();
         res.status(200).json({ message: 'Medicinal created', medicinal });
       } catch (e) {
         res.status(400).send(e);
       }
-    }
+    },
   );
 
 router
