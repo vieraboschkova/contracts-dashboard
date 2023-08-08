@@ -10,7 +10,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:prettier/recommended',
   ],
-  parser: '@typescript-eslint/parser',
+  // parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -18,7 +18,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'import', 'react', 'prettier'],
+  plugins: ['import', 'react', 'prettier'],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'no-console': 'warn',
