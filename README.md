@@ -9,8 +9,8 @@ Entry file is in server.js. Main server side file are in the api and config fold
 # Features/ Fixes To Be Implemented
 
 * Typescript
-* React-query
+* React-query or react-router instead of fetch API
 * Form validation on the client side
-* Cleanup
-* Refactor in the contract/:id route
-* Tests
+* Context to store initial data
+* Tests for server side
+  
